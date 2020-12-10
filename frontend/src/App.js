@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
 import Landing from './components/Landing.js';
 import Room from './components/Room.js';
 import firebase, { auth, provider } from './firebase.js';

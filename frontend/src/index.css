@@ -11,7 +11,6 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden; 
   }
 
   main {
@@ -86,6 +85,7 @@ html {
     outline: none;
     resize: none;
     overflow: auto;
+    width: 100%
   }
 
 
