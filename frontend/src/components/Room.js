@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 
+
 export default class Room extends Component {
     render() {
         return (
             <div>
+            
               <main>
                 <div className="room">
                                   
 
                         <div id="video-grid">
-                            <h1 className="white-text flow-text">video here</h1>
+                            <h1 className="white-text flow-text"></h1>
                         </div>
 
-                        <div id="buttons">
+                        <div id="nav">
 
                             <button id="videobtn" class="btn-floating btn-large waves-effect waves-light light"><i class="material-icons">headset_mic</i></button>
 
@@ -30,6 +32,7 @@ export default class Room extends Component {
                    
                         <div id="chat-box">
 
+
                                    
                         
                             <div id="chats">
@@ -42,7 +45,14 @@ export default class Room extends Component {
 
                             <div id="sendmsg">
                             <form>
-                                <textarea className="white-text" autocomplete="off" id="message-input" type="text" name="message-input" />
+                                <textarea 
+                                    className="white-text" 
+                                    autocomplete="off" 
+                                    id="message-input" 
+                                    type="text" 
+                                    name="message-input"  
+                                    placeholder="Type to chat. Remember, be nice!" cols="10" rows="5"   
+                                    />
                                 
                                 <input
                                     id="msgsubmit"
