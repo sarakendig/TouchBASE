@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import Footer from './Footer.js';
+import Header from './Header.js';
 
 export default class Landing extends Component {
     render() {
         return (
             <div>
+            <Header> </Header>
                 <main>
                 <div className="container">
                     <center>
@@ -17,6 +20,7 @@ export default class Landing extends Component {
                     </center>
                 </div>
                 </main>
+                <Footer> </Footer>
             </div>
         )
     }

@@ -1,12 +1,85 @@
+html {
+  height: 100%;
+}
 
   body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     background-color: black;
+    color: white;
+    margin: 0;
+    height: 100%;
+    overflow: hidden; 
   }
 
   main {
     min-height: calc(100vh - 150px);
   }
+
+  .room{
+    position: fixed;
+    padding-left: 300px;
+    height: 100%;
+    padding-bottom: 60px;
+    
+  }
+
+  @media only screen and (max-width : 992px) {
+    .room{
+      padding-left: 0;
+    }
+  }
+
+  #video-grid {
+    height: 80%;
+  }
+
+  #buttons {
+   
+  }
+
+  #videobtn {
+    margin: 50px;
+  }
+
+  #chat-box {
+    position: fixed;
+    width: 300px;
+    right: 0;
+    top: 0;
+    margin: 0;
+    height: 100%;
+    padding-bottom: 60px;
+    z-index: 999;
+    background-color: #1d1d1d ;
+  }
+
+  #chats {
+    width: 280px;
+    overflow-y: auto;
+    height: 95%;
+  }
+
+  #message-box {
+    color: #fff;
+  }
+
+  #sendmsg {
+    width: 100%;
+  }
+
+  #message-input {
+    width: 100%;
+    background-color: #212121;
+    overflow-y: auto;
+  }
+ 
+  #msgsubmit {
+    width: 100%;
+  }
+
+
+
+ 
      

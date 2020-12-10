@@ -5,16 +5,15 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Footer from './components/Footer.js';
-import Header from './components/Header.js';
 import Landing from './components/Landing.js';
+import Room from './components/Room.js';
 import firebase, { auth, provider } from './firebase.js';
 
 export default class App extends Component {
     constructor() {
       super();
       this.state = {
-        messages: '',
+        messages: [],
         username: '',
         user: null 
       }
@@ -61,17 +60,19 @@ export default class App extends Component {
   render() {
     return (
       <Router>
-      <Header> </Header>
+      
      
       <Switch>
       <Route exact path="/">
             <Landing/>
           </Route>
 
-
+          <Route exact path="/room">
+            <Room/>
+          </Route>
       </Switch>
         
-      <Footer> </Footer>
+      
       </Router>
     )
   }
