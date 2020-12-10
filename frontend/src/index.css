@@ -1,0 +1,12 @@
+
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: black;
+  }
+
+  main {
+    min-height: calc(100vh - 150px);
+  }
+     
