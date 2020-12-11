@@ -1,9 +1,27 @@
-import React, { Component } from 'react'
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import queryString from 'query-string';
+import io from "socket.io-client";
 
+let socket;
+const baseURL = 'http://localhost:3004/';
 
-export default class Room extends Component {
-    render() {
+const Room = ({ location }) => {
+    const [username, setUsername] = useState('');
+    const [room, setRoom] = useState('');
+    
+
+    useEffect(()  => {
+        const { username, room } = queryString.parse(location.search);
+
+        socket = io(baseURL);
+
+        setUsername(username);
+        setRoom(room);
+
+        console.log(socket)
+
+});
+
         return (
             <div>
             
@@ -12,7 +30,7 @@ export default class Room extends Component {
                                   
 
                         <div id="video-grid">
-                            <h1 className="white-text flow-text"></h1>
+                            <h1 className="white-text flow-text">video</h1>
                         </div>
 
                         <div id="nav">
@@ -37,8 +55,9 @@ export default class Room extends Component {
                                    
                         
                             <div id="chats">
-                            <ul id="message-box" className="flow-text">
-                            </ul>
+                            <ul className="message-box">
+                            
+                           </ul>
                             </div>
 
 
@@ -69,6 +88,7 @@ export default class Room extends Component {
                 
             
         )
-    }
 
 }
+
+export default Room;
