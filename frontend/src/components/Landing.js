@@ -16,7 +16,7 @@ export default class Landing extends Component {
                     </video>
                     {/* <img src="./Touch BASEblue.gif" alt="touch base logo"/> */}
 
-
+                    <p> </p>
                     
                     </center>
                 </div>

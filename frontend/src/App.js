@@ -62,7 +62,7 @@ export default class App extends Component {
             <Landing/>
           </Route>
 
-          <Route exact path="/room">
+          <Route path="/room" component={Room}>
             <Room/>
           </Route>
       </Switch>

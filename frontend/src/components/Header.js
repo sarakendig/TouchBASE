@@ -10,7 +10,7 @@ export default class Header extends Component {
                 <div className="navbar-fixed  grey darken-4">
                 <nav>
                     <div className="nav-wrapper  grey darken-4">
-                    <Link href="/" class="brand-logo">TouchBASE</Link>
+                    <Link href="/" class="brand-logo"><i class="material-icons">home</i></Link>
                 
 
                     <ul className="right">
