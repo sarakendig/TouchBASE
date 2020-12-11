@@ -7,9 +7,9 @@ export default class Header extends Component {
             <div>
                  <header>
 
-                <div className="navbar-fixed  grey darken-4">
+                <div className="navbar-fixed  black">
                 <nav>
-                    <div className="nav-wrapper  grey darken-4">
+                    <div className="nav-wrapper">
                     <Link href="/" class="brand-logo"><i class="material-icons">home</i></Link>
                 
 

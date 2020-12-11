@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
 
-
 export default class Footer extends Component {
     render() {
         return (
             <div>
+            
         <footer class="page-footer grey darken-4">
           <div class="container">
             <div class="row">
