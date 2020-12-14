@@ -1,41 +1,50 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
-import queryString from 'query-string';
+import React, { Component } from "react";
 import io from "socket.io-client";
 
 
-const baseURL = 'http://localhost:3004/';
-let socket =io(baseURL);
+const ENDPOINT = 'http://localhost:5000/';
+let socket =io(ENDPOINT);
 
-const Room = ( {location} )  => {
-    const [username, setUsername] = useState('');
-    const [room, setRoom] = useState('');
-    
+export default class Room extends Component {
+constructor() {
+    super();
+    this.state = { 
+        msg: "",
+        chats: []
+    };
+}
 
-    useEffect(() => {
-        const { room, username } = queryString.parse(location.search);
-
-
-        setUsername(username);
-        setRoom(room);
-
-        console.log(socket)
-
-        socket.emit('login', {username, room}, () => {
-
-        });
-      
-
-}, [location.search]);
-
-    useEffect (() => {
-      
-            
+    componentDidMount() {
+        socket.on('chat', ({id, msg}) => {
+            this.setState({
+                chat: [...this.state.chat, {id, msg}]
             })
+        })
+    }
 
+    onMsgAppend = e => {
+        this.setState({ 
+            chats: this.state.chat.concat(chat),
+            msg: e.target.value });
+    };
 
+    onMsgSend = () => {
+        socket.emit('chat', this.state.msg);
+        this.setState({msg: ""})
+    }
 
+    displayChat() {
+        const {chat} = this.state;
+        return chat.map(({id, msg}, idx) => (
+            <div key={idx}>
+                <span>{id}:</span>
+                <span> {msg}</span>
+                
+            </div>
+        ));
+    }
 
+render() {
         return (
             <div>
             
@@ -49,13 +58,13 @@ const Room = ( {location} )  => {
 
                         <div id="nav">
 
-                            <button id="videobtn" class="btn-floating btn-large waves-effect waves-light light"><i class="material-icons">headset_mic</i></button>
+                            <button id="videobtn" className="btn-floating btn-large waves-effect waves-light light"><i class="material-icons">headset_mic</i></button>
 
-                            <button id="videobtn" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">volume_off</i></button>
+                            <button id="videobtn" className="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">volume_off</i></button>
 
-                            <button id="videobtn" class="btn-floating btn-large waves-effect waves-light light"><i class="material-icons">videocam</i></button>
+                            <button id="videobtn" className="btn-floating btn-large waves-effect waves-light light"><i className="material-icons">videocam</i></button>
 
-                            <button id="videobtn" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">videocam_off</i></button>
+                            <button id="videobtn" className="btn-floating btn-large waves-effect waves-light red"><i className="material-icons">videocam_off</i></button>
 
                             
 
@@ -71,9 +80,10 @@ const Room = ( {location} )  => {
                                    
                         
                             <div id="chats">
-                            <ul className="message-box">
+                            <div id="message-box">
+                            {this.displayChat()}
+                            </div>
                             
-                           </ul>
                             </div>
 
 
@@ -83,11 +93,13 @@ const Room = ( {location} )  => {
                             <form id="msgform" action="">
                                 <textarea 
                                     className="white-text" 
-                                    autocomplete="off" 
+                                    autoComplete="off" 
                                     id="message-input" 
                                     type="text" 
-                                    name="message-input"  
-                                    placeholder="Type to chat. Remember, be nice!" cols="10" rows="5"   
+                                    name="msg"  
+                                    placeholder="Type to chat. Remember, be nice!" cols="10" rows="5" 
+                                    onChange={e => this.onMsgAppend(e)} 
+                                    value={this.state.msg}  
                                     />
                                 
                                 <input
@@ -95,6 +107,7 @@ const Room = ( {location} )  => {
                                     className="btn grey darken-4 waves-effect waves-grey"
                                     type="submit"
                                     value="send"
+                                    onClick={this.onMsgSend}
                                     />
                             </form>
                         </div>
@@ -106,5 +119,4 @@ const Room = ( {location} )  => {
         )
 
 }
-
-export default Room;
+}

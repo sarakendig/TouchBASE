@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link} from 'react-router-dom'
-import Footer from './Footer.js';
 import Header from './Header.js';
 
 const Landing = () => {
