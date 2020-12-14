@@ -1,33 +1,46 @@
 const express = require('express');
-const http = require('http');
-const socketio = require('socket.io');
-const cors = require('cors');
-
-const PORT = process.env.PORT || 3004;
-
 const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
+const server = require("http").createServer(app);
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+        credentials: true
+      },
+    handlePreflightRequest: (req, res) => {
+        const headers = {
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
+            "Access-Control-Allow-Credentials": true
+        };
+        res.writeHead(200, headers);
+        res.end();
+    }
+  });
 
 
-const router = require('./router')
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(router);
+app.get('/', (req, res) => {
+    res.send('server is live');
+});
+
+
 
 io.on('connection', (socket) => {
-    console.log('We are connected!!!')
+    // console.log(socket)
+    const { id } = socket.client;
+    console.log(`User connected: ${id}`);
 
-    socket.on('login', ({ username, room}, callback) => {
-        console.log(username, room);
+
+    socket.on('login', ({ id, room}, callback) => {
+        console.log(id, room);
     })
 
-    socket.on('chat', (data) => {
-        console.log('message sent')
-        socket.broadcast.emit('msg', {
-            username: socket.username,
-            msg: msg
-        })
+    socket.on('chat', (msg, id) => {
+        console.log('message sent: ' + msg)
+        io.emit('chat', msg)
+        console.log('chat')
     })
 
     socket.on('typing', () => {
