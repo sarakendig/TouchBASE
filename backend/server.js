@@ -1,26 +1,32 @@
-const express = require("express");
-const app = express();
-const http = require("http");
-const socketio = require("socket.io");
-const io = socketio(server);
+const express = require('express');
+const http = require('http');
+const socketio = require('socket.io');
+const cors = require('cors');
+
 const PORT = process.env.PORT || 3004;
 
+const app = express();
 const server = http.createServer(app);
+const io = socketio(server);
 
 
 const router = require('./router')
 
-
+app.use(cors());
 app.use(router);
 
 io.on('connection', (socket) => {
     console.log('We are connected!!!')
 
-    socket.on('new msg', (data) => {
+    socket.on('login', ({ username, room}, callback) => {
+        console.log(username, room);
+    })
+
+    socket.on('chat', (data) => {
         console.log('message sent')
-        socket.broadcast.emit('new msg', {
+        socket.broadcast.emit('msg', {
             username: socket.username,
-            msg: data
+            msg: msg
         })
     })
 
@@ -31,8 +37,8 @@ io.on('connection', (socket) => {
         })
     })
 
-    socket.on('disconnect', () => {
-        console.log('User disconnected')
+    socket.on('logout', () => {
+        console.log('User logged out')
     })
 })
 
