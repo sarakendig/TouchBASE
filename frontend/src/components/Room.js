@@ -1,26 +1,40 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import queryString from 'query-string';
 import io from "socket.io-client";
 
-let socket;
-const baseURL = 'http://localhost:3004/';
 
-const Room = ({ location }) => {
+const baseURL = 'http://localhost:3004/';
+let socket =io(baseURL);
+
+const Room = ( {location} )  => {
     const [username, setUsername] = useState('');
     const [room, setRoom] = useState('');
     
 
-    useEffect(()  => {
-        const { username, room } = queryString.parse(location.search);
+    useEffect(() => {
+        const { room, username } = queryString.parse(location.search);
 
-        socket = io(baseURL);
 
         setUsername(username);
         setRoom(room);
 
         console.log(socket)
 
-});
+        socket.emit('login', {username, room}, () => {
+
+        });
+      
+
+}, [location.search]);
+
+    useEffect (() => {
+      
+            
+            })
+
+
+
 
         return (
             <div>
@@ -43,6 +57,8 @@ const Room = ({ location }) => {
 
                             <button id="videobtn" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">videocam_off</i></button>
 
+                            
+
                         </div>
 
                 </div>
@@ -64,7 +80,7 @@ const Room = ({ location }) => {
                               
 
                             <div id="sendmsg">
-                            <form>
+                            <form id="msgform" action="">
                                 <textarea 
                                     className="white-text" 
                                     autocomplete="off" 
