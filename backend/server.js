@@ -18,8 +18,17 @@ const io = require("socket.io")(server, {
     }
   });
 
+// const { ExpressPeerServer } = require('peer');
+// const peerServer = ExpressPeerServer(server, {
+//     debug: true
+// });
+
 
 const PORT = process.env.PORT || 5000;
+
+
+// app.use('/peerjs', peerServer);
+
 
 app.get('/', (req, res) => {
     res.send('server is live');
@@ -31,16 +40,19 @@ io.on('connection', (socket) => {
     // console.log(socket)
     const { id } = socket.client;
     console.log(`User connected: ${id}`);
+ 
 
-
-    socket.on('login', ({ id, room}, callback) => {
-        console.log(id, room);
+    socket.on('join', (username) => {
+        socket.username = username;
+        users.push(socket.username);
+        console.log(users)
     })
 
-    socket.on('chat', (msg, id) => {
+   
+
+    socket.on('chat', (msg) => {
         console.log('message sent: ' + msg)
-        io.emit('chat', msg)
-        console.log('chat')
+        io.emit('chat', id + ':' + msg)
     })
 
     socket.on('typing', () => {
