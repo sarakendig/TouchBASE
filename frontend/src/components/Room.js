@@ -5,44 +5,95 @@ import io from "socket.io-client";
 const ENDPOINT = 'http://localhost:5000/';
 let socket =io(ENDPOINT);
 
+// const videoGrid = document.getElementById('video-grid')
+// const peer = new Peer
+
+// let videoStream;
+
+// const video = document.createElement('video');
+// const peers = {}
+
+// navigator.mediaDevices.getUserMedia({
+//     video: true,
+//     audio: true
+// })
+// .then(stream => {
+//     videoStream = stream;
+//     video.srcObject = stream;
+//     video.onloadedmetadata = (e) => {
+//         video.play();
+//     };
+//     videoGrid.append(video)
+// })
+// peer.on('call', call =>{
+//     call.answer(stream)
+//     call.on('stream', userVideoStream => {
+//         addVideoStream(video, userVideoStream)
+// })
+// .catch(error => {
+//     alert('Please enable camera permissions')
+
+// })
+
+// function addUserVideo(video, stream) {
+//     video.srcObject = stream
+//     video.addEventListener('loadedmetadata', () => {
+//       video.play()
+//     })
+//     videoGrid.append(video)
+//   }
+  
+
 export default class Room extends Component {
-constructor() {
+ constructor() {
     super();
     this.state = { 
         msg: "",
-        chats: []
+        chat: [],
+       
     };
-}
+    this.handleChange = this.handleChange.bind(this);
+};
+
+  
 
     componentDidMount() {
-        socket.on('chat', ({id, msg}) => {
+        socket.on('chat', (msg, id) => {
+        
             this.setState({
                 chat: [...this.state.chat, {id, msg}]
             })
         })
-    }
-
-    onMsgAppend = e => {
-        this.setState({ 
-            chats: this.state.chat.concat(chat),
-            msg: e.target.value });
     };
 
-    onMsgSend = () => {
+
+    onMsgAppend = (val, e) => {
+        const {chat} = this.state;
+        if(this.state.chat){
+        this.setState({chat: this.state.chat.concat([chat])});
+        }
+    };
+
+    handleChange(e) {
+        this.setState({ [e.target.id]: e.target.value})
+    };
+
+    onMsgSend = (e) => {
+        e.preventDefault();
         socket.emit('chat', this.state.msg);
         this.setState({msg: ""})
-    }
+    };
 
     displayChat() {
         const {chat} = this.state;
         return chat.map(({id, msg}, idx) => (
             <div key={idx}>
-                <span>{id}:</span>
+                <span>{id}</span>
                 <span> {msg}</span>
                 
             </div>
         ));
-    }
+    };
 
 render() {
         return (
@@ -94,11 +145,11 @@ render() {
                                 <textarea 
                                     className="white-text" 
                                     autoComplete="off" 
-                                    id="message-input" 
+                                    id="msg" 
                                     type="text" 
                                     name="msg"  
                                     placeholder="Type to chat. Remember, be nice!" cols="10" rows="5" 
-                                    onChange={e => this.onMsgAppend(e)} 
+                                    onChange= {this.handleChange} 
                                     value={this.state.msg}  
                                     />
                                 

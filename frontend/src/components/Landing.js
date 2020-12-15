@@ -1,11 +1,28 @@
-import React, { useState } from 'react'
-import { Link} from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from './Header.js';
+import io from "socket.io-client";
+
+const ENDPOINT = 'http://localhost:5000/';
+let socket =io(ENDPOINT);
 
 const Landing = () => {
 
    const [username, setUsername] = useState('');
-   const [room, setRoom] = useState('');
+
+   useEffect(() => {
+    socket.on('join', username => {
+      setUsername(username);
+    });
+    
+});
+
+    const joinRoom = (e) => {
+        e.preventDefault();
+        if (username) {
+            io.emit('join', username, () => setUsername(''))
+        }
+    }
     
         return (
             <div>
@@ -20,9 +37,7 @@ const Landing = () => {
 
                             <center>
 
-                            {/* <video className="logo" autoPlay loop playsInLine>
-                            <source src="./TouchBASE.mp4" type="video/mp4" />
-                            </video> */}
+                            
 
                             <img src="./Touch BASEblue.gif" alt="touch base logo" className="logo" />
 
@@ -50,17 +65,17 @@ const Landing = () => {
 
 
                             {/* <div className="joininput"> */}
-                            <input 
+                            {/* <input 
                             placeholder="roomname" 
                             id="joinroom" 
                             className="white-text" 
                             type="text" 
-                            onChange={(event) => setRoom(event.target.value)} /> 
+                            onChange={(event) => setRoom(event.target.value)} />  */}
                             </div>
 
 
                             <Link 
-                            onClick={e => (!username || !room) ? e.preventDefault() : null} to={`/room?username=${username}&room=${room}`}>
+                            onClick={e => (!username ) ? e.preventDefault() : null} to={`/room?username=${username}`} joinRoom={joinRoom}>
 
                             <button 
                             className="waves-effect waves-light btn-large black white-text" 
